@@ -1,0 +1,11 @@
+spring:
+  data:
+    cassandra:
+      keyspace-name: gufo_data
+
+      username: idhs
+      password: IntLabs@1234
+      cluster-name: IDHS_Cluster
+      contact-points: 123.30.238.141, 123.30.238.225
+      port: 9042
+      schema-action: CREATE_IF_NOT_EXISTS
