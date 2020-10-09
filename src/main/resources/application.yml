@@ -9,3 +9,18 @@ spring:
       contact-points: 123.30.238.141, 123.30.238.225
       port: 9042
       schema-action: CREATE_IF_NOT_EXISTS
+    mongodb:
+      uri: mongodb://crawl:IntLabs%401234@14.248.82.137:27017/DataCrawl?replicaSet=rs0&authSource=DataCrawl&retryWrites=true&w=majority
+
+  mvc:
+    converters:
+      preferred-json-mapper: gson
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+server:
+  port: 6969
+
+
