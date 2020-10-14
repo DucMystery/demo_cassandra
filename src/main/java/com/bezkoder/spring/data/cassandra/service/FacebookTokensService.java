@@ -6,6 +6,7 @@ import com.bezkoder.spring.data.cassandra.dto.request.FacebookTokenUpdateDTO;
 import com.bezkoder.spring.data.cassandra.dto.response.FacebookTokenResponseDTO;
 import com.bezkoder.spring.data.cassandra.dto.response.FacebookTokenWorkerResponse;
 import com.bezkoder.spring.data.cassandra.model.FacebookTokens;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,7 @@ public interface FacebookTokensService {
     FacebookTokens  workerResponseError(FacebookTokenWorkerResponse facebookTokenWorkerResponse);
 
     FacebookTokenResponseDTO executeResponseWorker(FacebookTokenWorkerResponse facebookTokenWorkerResponse);
+    List<FacebookTokens> readFromExcel(MultipartFile multipartFile);
 
 
 }

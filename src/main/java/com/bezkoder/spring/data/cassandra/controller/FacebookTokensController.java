@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -67,5 +68,12 @@ public class FacebookTokensController {
     public ResponseEntity<FacebookTokenResponseDTO> workerUpdateToken(@Valid @RequestBody FacebookTokenWorkerResponse facebookTokenWorkerResponse){
         FacebookTokenResponseDTO facebookTokenResponseDTO = facebookTokensService.executeResponseWorker(facebookTokenWorkerResponse);
         return new ResponseEntity<>(facebookTokenResponseDTO,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/read-from-excel",method = RequestMethod.POST)
+    public ResponseEntity<List<FacebookTokenResponseDTO>> readFileExcel(@RequestPart MultipartFile multipartFile){
+        List<FacebookTokens> facebookTokensList = facebookTokensService.readFromExcel(multipartFile);
+        List<FacebookTokenResponseDTO> facebookTokenResponseDTOList = facebookTokenMapper.toFacebookTokenDTOS(facebookTokensList);
+        return new ResponseEntity<>(facebookTokenResponseDTOList,HttpStatus.OK);
     }
 }

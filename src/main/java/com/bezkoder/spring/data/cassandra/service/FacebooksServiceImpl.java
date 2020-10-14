@@ -6,6 +6,7 @@ import com.bezkoder.spring.data.cassandra.repository.FacebooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +25,10 @@ public class FacebooksServiceImpl implements FacebooksService {
         List<Facebooks> facebooksList = facebooksRepository.findAll();
 
         return facebooksList;
+    }
+
+    @Override
+    public Slice<Facebooks> findAll(Pageable pageable) {
+        return null;
     }
 }

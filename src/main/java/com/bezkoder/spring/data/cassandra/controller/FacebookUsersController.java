@@ -5,8 +5,11 @@ import com.bezkoder.spring.data.cassandra.dto.response.FacebookUsersResponseDTO;
 import com.bezkoder.spring.data.cassandra.mapper.FacebookUsersMapper;
 import com.bezkoder.spring.data.cassandra.model.FacebookUsers;
 import com.bezkoder.spring.data.cassandra.model.FacebookUsersCassandra;
+import com.bezkoder.spring.data.cassandra.repository.FacebookUsersCassandraRepository;
+import com.bezkoder.spring.data.cassandra.repository.FacebooksCassandraRepository;
 import com.bezkoder.spring.data.cassandra.service.FacebookUsersService;
 import com.bezkoder.spring.data.cassandra.service.FacebookUsersCassandraService;
+import com.bezkoder.spring.data.cassandra.service.FacebooksCassandraService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class FacebookUsersController {
@@ -42,8 +46,55 @@ public class FacebookUsersController {
     @Autowired
     private FacebookUsersCassandraService facebookUsersCassandraService;
 
+    @Autowired
+    private FacebookUsersCassandraRepository facebookUsersCassandraRepository;
+
     @RequestMapping(value = "get-all",method = RequestMethod.GET)
-    public ResponseEntity<List<FacebookUsersResponseDTO>> getAll(){
+    public ResponseEntity<Void> getAll(@PageableDefault Pageable pageable){
+        Pageable currentPage = new Pageable() {
+            @Override
+            public int getPageNumber() {
+                return pageable.getPageNumber();
+            }
+
+            @Override
+            public int getPageSize() {
+                return 140000;
+            }
+
+            @Override
+            public long getOffset() {
+                return 1;
+            }
+
+            @Override
+            public Sort getSort() {
+                return pageable.getSort();
+            }
+
+            @Override
+            public Pageable next() {
+                return pageable.next();
+            }
+
+            @Override
+            public Pageable previousOrFirst() {
+                return pageable.previousOrFirst();
+            }
+
+            @Override
+            public Pageable first() {
+                return pageable.first();
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return pageable.hasPrevious();
+            }
+        };
+
+        Slice<FacebookUsersCassandra> facebookUsersCassandraSlice = facebookUsersCassandraRepository.findAll(currentPage);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

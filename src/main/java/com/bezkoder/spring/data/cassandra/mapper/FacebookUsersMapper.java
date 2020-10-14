@@ -26,12 +26,6 @@ public interface FacebookUsersMapper {
      static final String TO_FACEBOOK_USERS_CASSANDRAS = "toFacebookUsersCassandras";
 
 
-     @Named("toFacebooksIntermediate")
-     @Mapping(target = "uid",source = "facebookId")
-     @Mapping(target = "name",source = "facebookName")
-     @Mapping(target = "link",source = "facebookUrl")
-     @Mapping(target = "link",source = "facebookUrl")
-     List<FacebooksIntermediateDTO> toFacebooksIntermediate(List<FacebookUsersCassandra> facebookUsersCassandraList);
 
 
 

@@ -29,7 +29,7 @@ public class FacebooksCassandraServiceImpl implements FacebooksCassandraService{
         for (FacebooksResponseDTO facebooksResponseDTO : facebooksResponseDTOList){
             FacebooksCS facebooksCS = new FacebooksCS();
             facebooksCS.setFacebookId(facebooksResponseDTO.getFacebookId());
-            facebooksCS.setBelongTo(facebooksResponseDTO.getBelongTo());
+            facebooksCS.setFacebookName(facebooksResponseDTO.getFacebookName());
             facebooksCS.setFacebookType(facebooksResponseDTO.getFacebookType());
             facebooksCS.setFacebookUrl(facebooksResponseDTO.getFacebookUrl());
             facebooksCassandraRepository.save(facebooksCS);

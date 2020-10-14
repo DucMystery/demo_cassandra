@@ -12,16 +12,21 @@ import com.bezkoder.spring.data.cassandra.function.Utils;
 import com.bezkoder.spring.data.cassandra.mapper.FacebookTokenMapper;
 import com.bezkoder.spring.data.cassandra.model.FacebookTokens;
 import com.bezkoder.spring.data.cassandra.repository.FacebookTokensRepository;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class FacebookTokensServiceImpl implements FacebookTokensService {
@@ -166,6 +171,45 @@ public class FacebookTokensServiceImpl implements FacebookTokensService {
         }
 
 
+    }
+
+    @Override
+    public List<FacebookTokens> readFromExcel(MultipartFile multipartFile) {
+
+        List<FacebookTokens> list = new ArrayList<FacebookTokens>();
+        try {
+            @SuppressWarnings("resource")
+            Workbook workbook =new XSSFWorkbook(multipartFile.getInputStream());
+            int numberOfSheets = workbook.getNumberOfSheets();
+            for (int i= 0; i<numberOfSheets;i++){
+                Sheet sheet = workbook.getSheetAt(i);
+                Iterator<Row> rowIterator = sheet.iterator();
+                while (rowIterator.hasNext()) {
+                    FacebookTokenDTO facebookTokenDTO = new FacebookTokenDTO();
+                    Row row = rowIterator.next();
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+
+                        Cell cell = cellIterator.next();
+                        if (cell.getColumnIndex() == 0) {
+                            facebookTokenDTO.setToken(cell.getStringCellValue());
+                            if (facebookTokenDTO.getToken().equalsIgnoreCase("")) {
+                                break;
+                            } else {
+
+                                FacebookTokens facebookTokens = this.createToken(facebookTokenDTO);
+                                list.add(facebookTokens);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 
