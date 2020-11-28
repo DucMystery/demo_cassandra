@@ -25,14 +25,7 @@ public class DataCrawl {
 
     private String content;
 
-    private Date publishDate;
-
     private String source;
-
-    @CreatedDate
-    private Date createdDate;
-
-    private Date modifiedDate;
 
     @Field(value = "image_url")
     private String imageUrl;

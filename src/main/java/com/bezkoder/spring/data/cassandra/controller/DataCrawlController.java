@@ -4,6 +4,8 @@ import com.bezkoder.spring.data.cassandra.dto.request.DataCrawlDTO;
 import com.bezkoder.spring.data.cassandra.model.GufoDataCassandra;
 import com.bezkoder.spring.data.cassandra.service.DataCrawlService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +22,10 @@ public class DataCrawlController {
     private DataCrawlService dataCrawlService;
 
     @RequestMapping(value = "/find-all", method = RequestMethod.GET)
-    public ResponseEntity<List<GufoDataCassandra>> findAll(){
+    public ResponseEntity<Void> findAll(@PageableDefault Pageable pageable){
 
-        List<GufoDataCassandra> dataCrawlDTOList = dataCrawlService.findAllData();
+        dataCrawlService.findAllData(pageable);
 
-        return new ResponseEntity<>(dataCrawlDTOList, HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 }

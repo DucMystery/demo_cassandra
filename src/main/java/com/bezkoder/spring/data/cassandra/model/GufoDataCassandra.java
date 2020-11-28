@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Table(value = "gufo_data")
+@Table(value = "gufo_data_adv")
 public class GufoDataCassandra {
 
 

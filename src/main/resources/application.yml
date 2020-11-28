@@ -21,6 +21,6 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
 
 server:
-  port: 6969
+  port: 6868
 
 

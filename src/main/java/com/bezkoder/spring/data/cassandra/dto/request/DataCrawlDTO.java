@@ -17,13 +17,7 @@ public class DataCrawlDTO {
 
     private String content;
 
-    private Date publishDate;
-
     private String source;
-
-    private Date createdDate;
-
-    private Date modifiedDate;
 
     private String imageUrl;
 }
